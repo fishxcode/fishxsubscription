@@ -13,19 +13,21 @@ function createRedisClient() {
   });
 }
 
-export const redis = globalThis.__fishxcodeRedis__ ?? createRedisClient();
+function getRedisClient() {
+  if (!globalThis.__fishxcodeRedis__) {
+    const client = createRedisClient();
+    client.on("error", (error) => {
+      console.error("Redis connection error:", error);
+    });
+    globalThis.__fishxcodeRedis__ = client;
+  }
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.__fishxcodeRedis__ = redis;
-}
-
-if (!redis.isOpen) {
-  redis.on("error", (error) => {
-    console.error("Redis connection error:", error);
-  });
+  return globalThis.__fishxcodeRedis__;
 }
 
 export async function ensureRedisConnection() {
+  const redis = getRedisClient();
+
   if (!redis.isOpen) {
     await redis.connect();
   }

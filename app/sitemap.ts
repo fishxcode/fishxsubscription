@@ -4,11 +4,14 @@ import { locales } from "@/lib/i18n";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
+  const paths = ["", "/auth"] as const;
 
-  return locales.map((locale) => ({
-    url: `${publicEnv.NEXT_PUBLIC_APP_URL}/${locale}`,
-    lastModified: now,
-    changeFrequency: "weekly",
-    priority: locale === "zh" ? 1 : 0.8,
-  }));
+  return locales.flatMap((locale) =>
+    paths.map((path) => ({
+      url: `${publicEnv.NEXT_PUBLIC_APP_URL}/${locale}${path}`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: path === "" ? (locale === "zh" ? 1 : 0.8) : 0.5,
+    })),
+  );
 }

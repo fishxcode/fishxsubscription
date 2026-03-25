@@ -1,5 +1,7 @@
 import { Hero } from "@/components/site/hero";
+import { getSession } from "@/lib/auth/session";
 import { getDictionary, isSupportedLocale } from "@/lib/i18n";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 type LocalePageProps = {
@@ -8,6 +10,8 @@ type LocalePageProps = {
   }>;
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function LocaleHomePage({ params }: LocalePageProps) {
   const { locale } = await params;
 
@@ -15,7 +19,9 @@ export default async function LocaleHomePage({ params }: LocalePageProps) {
     notFound();
   }
 
+  await cookies();
   const dictionary = getDictionary(locale);
+  const session = await getSession();
 
-  return <Hero locale={locale} dictionary={dictionary} />;
+  return <Hero locale={locale} dictionary={dictionary} session={session} />;
 }

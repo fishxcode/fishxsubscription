@@ -22,6 +22,7 @@ FishXCode AI 订阅网站基础工程。
 - 深色 / 浅色主题切换
 - 中英文国际化路由结构
 - 基础 SEO（metadata / robots / sitemap）
+- 邮箱密码认证、Redis 会话、受保护账户页
 - 可复用基础 UI 组件
 - 环境变量读取与校验
 - PostgreSQL / Redis 接入层占位

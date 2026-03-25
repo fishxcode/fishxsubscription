@@ -3,6 +3,7 @@
 import { Monitor, Moon, SunMedium } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { type HomeDictionary } from "@/lib/i18n";
 
 type Theme = "dark" | "light" | "system";
 
@@ -25,7 +26,11 @@ function applyTheme(theme: Theme) {
   root.dataset.theme = theme;
 }
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  dictionary: HomeDictionary;
+};
+
+export function ThemeToggle({ dictionary }: ThemeToggleProps) {
   const [theme, setTheme] = useState<Theme>("system");
 
   useEffect(() => {
@@ -54,16 +59,16 @@ export function ThemeToggle() {
   }
 
   return (
-    <div className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-card/70 p-1 backdrop-blur">
+    <div className="inline-flex shrink-0 items-center gap-1 rounded-full border border-border/60 bg-card/85 p-1.5 backdrop-blur">
       {themes.map(({ value, icon: Icon }) => (
         <Button
           key={value}
           variant={theme === value ? "default" : "ghost"}
           size="icon"
           type="button"
-          className="h-9 w-9"
+          className="h-8 w-8 shrink-0"
           onClick={() => handleThemeChange(value)}
-          aria-label={`切换到${value}主题`}
+          aria-label={`${dictionary.controls.theme.switchTo}${dictionary.controls.theme[value]}`}
         >
           <Icon className="h-4 w-4" />
         </Button>

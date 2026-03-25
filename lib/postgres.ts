@@ -17,17 +17,18 @@ function createPool() {
   });
 }
 
-export const postgres =
-  globalThis.__fishxcodePgPool__ ?? createPool();
+function getPool() {
+  if (!globalThis.__fishxcodePgPool__) {
+    globalThis.__fishxcodePgPool__ = createPool();
+  }
 
-if (process.env.NODE_ENV !== "production") {
-  globalThis.__fishxcodePgPool__ = postgres;
+  return globalThis.__fishxcodePgPool__;
 }
 
 export async function withPgClient<T>(
   handler: (client: PoolClient) => Promise<T>,
 ) {
-  const client = await postgres.connect();
+  const client = await getPool().connect();
 
   try {
     return await handler(client);
@@ -40,5 +41,5 @@ export async function sql<T extends QueryResultRow = QueryResultRow>(
   text: string,
   params?: unknown[],
 ): Promise<QueryResult<T>> {
-  return postgres.query<T>(text, params);
+  return getPool().query<T>(text, params);
 }

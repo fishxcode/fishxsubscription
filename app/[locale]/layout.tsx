@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isSupportedLocale, locales, type Locale } from "@/lib/i18n";
+import { isSupportedLocale, type Locale } from "@/lib/i18n";
 import { buildMetadata } from "@/lib/seo";
 
 type LocaleLayoutProps = Readonly<{
@@ -9,10 +9,6 @@ type LocaleLayoutProps = Readonly<{
     locale: string;
   }>;
 }>;
-
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
 
 export async function generateMetadata({
   params,
@@ -36,5 +32,9 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  return <section data-locale={locale as Locale}>{children}</section>;
+  return (
+    <section data-locale={locale as Locale} lang={locale === "zh" ? "zh-CN" : "en-US"}>
+      {children}
+    </section>
+  );
 }

@@ -81,10 +81,25 @@
       radial-gradient(circle at bottom right, rgba(164, 115, 76, 0.14), transparent 28%),
       linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 247, 238, 0.9) 30%);
   }
+
+  a,
+  button,
+  input {
+    min-width: 0;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
   }
 }

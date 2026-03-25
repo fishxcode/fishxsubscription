@@ -1,6 +1,7 @@
 type RequiredServerEnv = {
   DATABASE_URL: string;
   REDIS_URL: string;
+  SESSION_SECRET: string;
 };
 
 type PublicEnv = {
@@ -20,13 +21,15 @@ export const publicEnv: PublicEnv = {
 export function getServerEnv(): RequiredServerEnv {
   const DATABASE_URL = readEnv("DATABASE_URL");
   const REDIS_URL = readEnv("REDIS_URL");
+  const SESSION_SECRET = readEnv("SESSION_SECRET");
 
-  if (!DATABASE_URL || !REDIS_URL) {
-    throw new Error("缺少服务端环境变量，请先配置 DATABASE_URL 与 REDIS_URL。");
+  if (!DATABASE_URL || !REDIS_URL || !SESSION_SECRET) {
+    throw new Error("缺少服务端环境变量，请先配置 DATABASE_URL、REDIS_URL 与 SESSION_SECRET。");
   }
 
   return {
     DATABASE_URL,
     REDIS_URL,
+    SESSION_SECRET,
   };
 }
