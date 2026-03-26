@@ -1,5 +1,5 @@
 import { createSession } from "@/lib/auth/session";
-import { createUser, findUserByEmail } from "@/lib/auth/users";
+import { createUser, findUserByEmail, hasExternalUserByEmail } from "@/lib/auth/users";
 import { badRequest } from "@/lib/auth/http";
 import { isValidEmail, normalizeEmail } from "@/lib/auth/validation";
 import { type Locale } from "@/lib/i18n";
@@ -58,9 +58,12 @@ export async function POST(request: Request) {
     return badRequest(registerMessage(locale, "passwordShort"));
   }
 
-  const existingUser = await findUserByEmail(email);
+  const [existingUser, existingExternalUser] = await Promise.all([
+    findUserByEmail(email),
+    hasExternalUserByEmail(email),
+  ]);
 
-  if (existingUser) {
+  if (existingUser || existingExternalUser) {
     return badRequest(registerMessage(locale, "emailExists"));
   }
 

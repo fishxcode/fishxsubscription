@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { type HomeDictionary, type Locale } from "@/lib/i18n";
+import { parseLoginIdentifier } from "@/lib/auth/validation";
 
 type AuthMode = "login" | "register";
 
@@ -36,7 +37,12 @@ export function AuthForm({ locale, dictionary, initialMode }: AuthFormProps) {
       return;
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim().toLowerCase())) {
+    if (isLogin) {
+      if (!parseLoginIdentifier(email)) {
+        setError(dictionary.auth.validation.loginIdentifierInvalid);
+        return;
+      }
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim().toLowerCase())) {
       setError(dictionary.auth.validation.emailInvalid);
       return;
     }
@@ -136,13 +142,17 @@ export function AuthForm({ locale, dictionary, initialMode }: AuthFormProps) {
 
           <div className="space-y-2">
             <label className="text-sm font-medium text-foreground">
-              {dictionary.auth.emailLabel}
+              {isLogin ? dictionary.auth.loginIdentifierLabel : dictionary.auth.emailLabel}
             </label>
             <Input
-              type="email"
+              type={isLogin ? "text" : "email"}
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              placeholder={dictionary.auth.emailPlaceholder}
+              placeholder={
+                isLogin
+                  ? dictionary.auth.loginIdentifierPlaceholder
+                  : dictionary.auth.emailPlaceholder
+              }
             />
           </div>
 

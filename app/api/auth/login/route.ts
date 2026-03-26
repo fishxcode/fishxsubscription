@@ -1,15 +1,15 @@
 import { createSession } from "@/lib/auth/session";
 import { authenticateUser } from "@/lib/auth/users";
 import { badRequest, unauthorized } from "@/lib/auth/http";
-import { isValidEmail, normalizeEmail } from "@/lib/auth/validation";
+import { parseLoginIdentifier } from "@/lib/auth/validation";
 import { type Locale } from "@/lib/i18n";
 import { NextResponse } from "next/server";
 
 function loginMessage(locale: Locale, key: string) {
   const messages = {
-    emailInvalid: {
-      zh: "请输入有效邮箱地址。",
-      en: "Please enter a valid email address.",
+    identifierInvalid: {
+      zh: "请输入有效邮箱、用户ID，或 ID@fishxcode.com。",
+      en: "Please enter a valid email, user ID, or ID@fishxcode.com.",
     },
     passwordRequired: {
       zh: "请输入密码。",
@@ -32,18 +32,18 @@ export async function POST(request: Request) {
   };
   const locale = body.locale === "en" ? "en" : "zh";
 
-  const email = normalizeEmail(body.email ?? "");
+  const identifier = parseLoginIdentifier(body.email ?? "");
   const password = body.password?.trim() ?? "";
 
-  if (!isValidEmail(email)) {
-    return badRequest(loginMessage(locale, "emailInvalid"));
+  if (!identifier) {
+    return badRequest(loginMessage(locale, "identifierInvalid"));
   }
 
   if (!password) {
     return badRequest(loginMessage(locale, "passwordRequired"));
   }
 
-  const user = await authenticateUser({ email, password });
+  const user = await authenticateUser({ identifier, password });
 
   if (!user) {
     return unauthorized(loginMessage(locale, "invalidCredentials"));

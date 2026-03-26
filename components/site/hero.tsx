@@ -2,29 +2,23 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import {
-  ArrowRight,
-  Bot,
-  Database,
-  Languages,
-  SearchCheck,
-} from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { SiteHeader } from "@/components/site/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { type HomeDictionary, type Locale } from "@/lib/i18n";
 import { type SessionPayload } from "@/lib/auth/types";
-
-const capabilityIcons = [Bot, Languages, SearchCheck, Database];
+import { type HomePricingPlan } from "@/lib/newapi-home";
 
 type HeroProps = {
   locale: Locale;
   dictionary: HomeDictionary;
   session: SessionPayload | null;
+  plans: HomePricingPlan[];
 };
 
-export function Hero({ locale, dictionary, session }: HeroProps) {
+export function Hero({ locale, dictionary, session, plans }: HeroProps) {
   return (
     <main className="relative overflow-hidden">
       <div className="absolute inset-0 bg-hero-grid bg-[size:40px_40px] opacity-[0.08]" />
@@ -61,34 +55,55 @@ export function Hero({ locale, dictionary, session }: HeroProps) {
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg">
-                {dictionary.hero.secondaryCta}
+              <Button asChild variant="secondary" size="lg">
+                <Link href="#featured-plans">{dictionary.hero.secondaryCta}</Link>
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <Link href={`/${locale}/pricing`}>{dictionary.hero.tertiaryCta}</Link>
               </Button>
             </div>
-            <div className="mt-12 grid gap-4 sm:grid-cols-2">
-              {dictionary.capabilities.map(({ title, description }, index) => {
-                const Icon = capabilityIcons[index];
-
-                return (
-                  <motion.div
-                    key={title}
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, delay: 0.15 + index * 0.08 }}
-                  >
-                    <Card className="h-full">
-                      <CardHeader>
-                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/12 text-primary">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <CardTitle className="mt-3">{title}</CardTitle>
-                        <CardDescription>{description}</CardDescription>
-                      </CardHeader>
-                    </Card>
-                  </motion.div>
-                );
-              })}
-            </div>
+            <section
+              aria-label="FishXCode AI homepage value summary"
+              className="mt-8 grid gap-3 sm:grid-cols-3"
+            >
+              <div className="rounded-[1.5rem] border border-border/70 bg-card/55 p-4">
+                <p className="text-sm font-semibold text-foreground">
+                  {dictionary.hero.salesTitle}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {dictionary.hero.salesDescription}
+                </p>
+              </div>
+              <div className="rounded-[1.5rem] border border-border/70 bg-card/55 p-4">
+                <p className="text-sm font-semibold text-foreground">
+                  {dictionary.hero.brandTitle}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {dictionary.hero.brandDescription}
+                </p>
+              </div>
+              <div className="rounded-[1.5rem] border border-border/70 bg-card/55 p-4">
+                <p className="text-sm font-semibold text-foreground">
+                  {dictionary.hero.consoleTitle}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  {dictionary.hero.consoleDescription}
+                </p>
+              </div>
+            </section>
+            <Card className="mt-10 border-primary/15 bg-card/72">
+              <CardHeader>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/12 text-primary">
+                    <Sparkles className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <CardTitle>{dictionary.hero.featuredTitle}</CardTitle>
+                    <CardDescription>{dictionary.hero.featuredDescription}</CardDescription>
+                  </div>
+                </div>
+              </CardHeader>
+            </Card>
           </motion.div>
 
           <motion.div
@@ -99,7 +114,10 @@ export function Hero({ locale, dictionary, session }: HeroProps) {
           >
             <div className="absolute -left-8 top-8 h-28 w-28 rounded-full bg-primary/20 blur-3xl" />
             <div className="absolute -bottom-6 right-0 h-32 w-32 rounded-full bg-orange-900/40 blur-3xl" />
-            <Card className="relative overflow-hidden border-primary/15 bg-[linear-gradient(180deg,rgba(245,201,104,0.08),rgba(255,255,255,0.02))]">
+            <Card
+              id="featured-plans"
+              className="relative overflow-hidden border-primary/15 bg-[linear-gradient(180deg,rgba(245,201,104,0.08),rgba(255,255,255,0.02))]"
+            >
               <CardHeader>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
@@ -117,25 +135,47 @@ export function Hero({ locale, dictionary, session }: HeroProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {dictionary.plans.map((plan) => (
+                {plans.map((plan, index) => (
                   <div
-                    key={plan.title}
-                    className="rounded-3xl border border-border/70 bg-background/55 p-5"
+                    key={plan.id}
+                    className={`rounded-3xl border p-5 transition ${
+                      plan.enabled
+                        ? "border-border/70 bg-background/55"
+                        : "border-border/50 bg-background/35 opacity-80"
+                    }`}
                   >
                     <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                       <div>
-                        <p className="text-lg font-semibold">{plan.title}</p>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <p className="text-lg font-semibold">{plan.title}</p>
+                          {index === 0 ? <Badge>{dictionary.pricing.featuredBadge}</Badge> : null}
+                          <Badge variant={plan.enabled ? "secondary" : "outline"}>
+                            {plan.enabled
+                              ? dictionary.pricing.activeStatus
+                              : dictionary.pricing.inactiveStatus}
+                          </Badge>
+                        </div>
                         <p className="mt-2 text-sm leading-6 text-muted-foreground">
                           {plan.description}
                         </p>
+                        <Link
+                          href={`/${locale}/pricing/${plan.id}`}
+                          className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-primary"
+                        >
+                          {dictionary.pricing.detailCta}
+                          <ArrowRight className="h-4 w-4" />
+                        </Link>
                       </div>
                       <div className="text-left sm:text-right">
                         <p className="text-2xl font-semibold text-primary">{plan.price}</p>
-                        <p className="text-xs text-muted-foreground">{dictionary.pricing.cycle}</p>
+                        <p className="text-xs text-muted-foreground">{plan.cycle}</p>
                       </div>
                     </div>
                   </div>
                 ))}
+                <Button asChild variant="outline" className="w-full">
+                  <Link href={`/${locale}/pricing`}>{dictionary.pricing.viewAll}</Link>
+                </Button>
               </CardContent>
             </Card>
           </motion.div>

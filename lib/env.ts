@@ -22,7 +22,6 @@ export function getServerEnv(): RequiredServerEnv {
   const DATABASE_URL = readEnv("DATABASE_URL");
   const REDIS_URL = readEnv("REDIS_URL");
   const SESSION_SECRET = readEnv("SESSION_SECRET");
-
   if (!DATABASE_URL || !REDIS_URL || !SESSION_SECRET) {
     throw new Error("缺少服务端环境变量，请先配置 DATABASE_URL、REDIS_URL 与 SESSION_SECRET。");
   }
