@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { HomePricingRecommender } from "@/components/site/home-pricing-recommender";
 import { SiteHeader } from "@/components/site/site-header";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -62,6 +63,7 @@ export function Hero({ locale, dictionary, session, plans }: HeroProps) {
                 <Link href={`/${locale}/pricing`}>{dictionary.hero.tertiaryCta}</Link>
               </Button>
             </div>
+            <HomePricingRecommender plans={plans} />
             <section
               aria-label="FishXCode AI homepage value summary"
               className="mt-8 grid gap-3 sm:grid-cols-3"

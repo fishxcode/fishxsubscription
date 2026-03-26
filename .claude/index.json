@@ -1,0 +1,173 @@
+{
+  "timestamp": "2026-03-26T09:45:22+08:00",
+  "project": "subscription",
+  "root": {
+    "path": ".",
+    "doc": "CLAUDE.md"
+  },
+  "ignore": {
+    "source": [
+      ".gitignore",
+      "default-rules"
+    ],
+    "patterns": [
+      ".next",
+      "node_modules",
+      ".env",
+      ".env.local",
+      ".env.production",
+      ".env.development.local",
+      "coverage",
+      "dist",
+      "out",
+      "node_modules/**",
+      ".git/**",
+      ".github/**",
+      "build/**",
+      "__pycache__/**",
+      "*.lock",
+      "*.log",
+      "*.bin",
+      "*.pdf",
+      "*.png",
+      "*.jpg",
+      "*.jpeg",
+      "*.gif",
+      "*.mp4",
+      "*.zip",
+      "*.tar",
+      "*.gz"
+    ],
+    "ignoredTopDirs": [
+      {
+        "path": "node_modules",
+        "reason": "ignored-by-rules"
+      },
+      {
+        "path": ".next",
+        "reason": "ignored-by-rules"
+      },
+      {
+        "path": "out",
+        "reason": "ignored-by-rules"
+      },
+      {
+        "path": "dist",
+        "reason": "ignored-by-rules"
+      }
+    ]
+  },
+  "coverage": {
+    "estimatedTotalFiles": 62,
+    "scannedFiles": 49,
+    "coveragePercent": 79,
+    "moduleCoverage": {
+      "covered": 3,
+      "total": 3,
+      "percent": 100
+    },
+    "truncated": true,
+    "truncatedReason": "Glob results were dominated and truncated by ignored dependency trees (mainly node_modules). Scan switched to module-targeted sampling to finish within tool limits."
+  },
+  "modules": [
+    {
+      "path": "app",
+      "doc": "app/CLAUDE.md",
+      "language": "TypeScript/TSX",
+      "entryPoints": [
+        "app/layout.tsx",
+        "app/page.tsx",
+        "app/[locale]/layout.tsx",
+        "app/[locale]/page.tsx"
+      ],
+      "interfaces": [
+        "app/api/auth/login/route.ts",
+        "app/api/auth/register/route.ts",
+        "app/api/auth/logout/route.ts",
+        "app/sitemap.ts",
+        "app/robots.ts"
+      ],
+      "tests": [],
+      "importantPaths": [
+        "app/[locale]/auth/page.tsx",
+        "app/[locale]/pricing/page.tsx",
+        "app/[locale]/pricing/[planId]/page.tsx",
+        "app/[locale]/account/layout.tsx",
+        "app/[locale]/account/page.tsx",
+        "app/[locale]/account/profile/page.tsx",
+        "app/[locale]/account/subscriptions/page.tsx",
+        "app/[locale]/account/orders/page.tsx"
+      ],
+      "gaps": [
+        "缺少自动化测试（API route / 页面渲染）"
+      ]
+    },
+    {
+      "path": "components",
+      "doc": "components/CLAUDE.md",
+      "language": "TypeScript/TSX",
+      "entryPoints": [
+        "components/site/hero.tsx",
+        "components/site/auth-form.tsx",
+        "components/site/account-shell.tsx"
+      ],
+      "interfaces": [
+        "props interfaces in site/ui components"
+      ],
+      "tests": [],
+      "importantPaths": [
+        "components/site/site-header.tsx",
+        "components/site/page-toolbar.tsx",
+        "components/site/logout-button.tsx",
+        "components/site/theme-toggle.tsx",
+        "components/site/locale-switcher.tsx",
+        "components/ui/button.tsx",
+        "components/ui/card.tsx",
+        "components/ui/input.tsx",
+        "components/ui/badge.tsx"
+      ],
+      "gaps": [
+        "缺少组件级测试（交互与可访问性）"
+      ]
+    },
+    {
+      "path": "lib",
+      "doc": "lib/CLAUDE.md",
+      "language": "TypeScript",
+      "entryPoints": [
+        "lib/env.ts",
+        "lib/postgres.ts",
+        "lib/redis.ts",
+        "lib/newapi-postgres.ts"
+      ],
+      "interfaces": [
+        "lib/auth/users.ts",
+        "lib/auth/session.ts",
+        "lib/newapi-account.ts",
+        "lib/newapi-home.ts",
+        "lib/account-console.ts",
+        "lib/i18n.ts",
+        "lib/seo.ts"
+      ],
+      "tests": [],
+      "importantPaths": [
+        "lib/auth/password.ts",
+        "lib/auth/validation.ts",
+        "lib/auth/http.ts",
+        "lib/auth/types.ts",
+        "lib/utils.ts"
+      ],
+      "gaps": [
+        "缺少 auth/account 聚合单元测试",
+        "本地 users 表迁移策略未独立文档化"
+      ]
+    }
+  ],
+  "nextScanPriority": [
+    "lib/auth",
+    "app/api/auth",
+    "app/[locale]/account",
+    "components/site",
+    "deployment/runtime docs (if introduced)"
+  ]
+}

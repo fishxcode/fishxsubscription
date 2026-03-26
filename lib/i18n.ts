@@ -145,8 +145,52 @@ export type HomeDictionary = {
     navProfile: string;
     navSubscriptions: string;
     navOrders: string;
+    navUsage: string;
+    navSecurity: string;
     overviewTitle: string;
     overviewDescription: string;
+    cockpitTitle: string;
+    cockpitDescription: string;
+    currentCycleTitle: string;
+    currentCycleDescription: string;
+    nextActionsTitle: string;
+    nextActionsDescription: string;
+    nextActionsEmpty: string;
+    nextActionCta: string;
+    nextPriorityHigh: string;
+    nextPriorityMedium: string;
+    nextPriorityLow: string;
+    nextSubscribeTitle: string;
+    nextSubscribeDescription: string;
+    nextRenewTitle: string;
+    nextRenewDescription: string;
+    nextOrderTitle: string;
+    nextOrderDescription: string;
+    nextUpgradeTitle: string;
+    nextUpgradeDescription: string;
+    nextManageTitle: string;
+    nextManageDescription: string;
+    forecastTitle: string;
+    forecastDescription: string;
+    forecastRiskLow: string;
+    forecastRiskMedium: string;
+    forecastRiskHigh: string;
+    forecastEmpty: string;
+    recoveryTitle: string;
+    recoveryDescription: string;
+    recoveryPaymentTitle: string;
+    recoveryPaymentDescription: string;
+    recoverySubscriptionTitle: string;
+    recoverySubscriptionDescription: string;
+    recoverySecurityTitle: string;
+    recoverySecurityDescription: string;
+    recentActivityTitle: string;
+    recentActivityDescription: string;
+    recentActivityEmpty: string;
+    recentSubscriptionTitle: string;
+    recentOrderTitle: string;
+    recentSessionTitle: string;
+    recentSessionDescription: string;
     profilePageTitle: string;
     profilePageDescription: string;
     subscriptionsPageTitle: string;
@@ -343,8 +387,52 @@ const dictionaries: Record<Locale, HomeDictionary> = {
       navProfile: "账户资料",
       navSubscriptions: "我的套餐",
       navOrders: "订单记录",
+      navUsage: "用量与账单",
+      navSecurity: "安全与会话",
       overviewTitle: "账户总览",
       overviewDescription: "从一个更清晰的视角查看账号状态、有效套餐和最近订单，不再把所有信息堆在同一屏里。",
+      cockpitTitle: "今日驾驶舱",
+      cockpitDescription: "聚焦本周期状态、下一步建议与最近活动，优先处理高影响任务。",
+      currentCycleTitle: "本周期状态",
+      currentCycleDescription: "实时展示你的订阅状态、剩余额度和订单信号。",
+      nextActionsTitle: "下一步建议",
+      nextActionsDescription: "系统根据账户状态给出优先处理动作。",
+      nextActionsEmpty: "当前没有待处理事项。",
+      nextActionCta: "立即处理",
+      nextPriorityHigh: "高优先级",
+      nextPriorityMedium: "中优先级",
+      nextPriorityLow: "低优先级",
+      nextSubscribeTitle: "开通首个套餐",
+      nextSubscribeDescription: "当前没有有效订阅，先选择一个适合你的套餐。",
+      nextRenewTitle: "续费即将到期的套餐",
+      nextRenewDescription: "当前套餐即将到期，建议提前续费避免服务中断。",
+      nextOrderTitle: "处理未完成订单",
+      nextOrderDescription: "存在未完成支付的订单，请尽快核对状态。",
+      nextUpgradeTitle: "升级套餐以获取更多额度",
+      nextUpgradeDescription: "剩余额度偏低，建议升级套餐保障连续使用。",
+      nextManageTitle: "检查当前套餐与配额",
+      nextManageDescription: "当前状态正常，可按需查看套餐和订单详情。",
+      forecastTitle: "额度预测",
+      forecastDescription: "基于本周期使用速度，预估剩余额度可持续天数。",
+      forecastRiskLow: "风险低",
+      forecastRiskMedium: "风险中",
+      forecastRiskHigh: "风险高",
+      forecastEmpty: "当前数据不足，暂无法预测。",
+      recoveryTitle: "异常恢复",
+      recoveryDescription: "当订单、订阅或会话状态异常时，从这里快速恢复。",
+      recoveryPaymentTitle: "重试失败支付",
+      recoveryPaymentDescription: "检测到失败订单，建议立即重试支付或切换支付方式。",
+      recoverySubscriptionTitle: "恢复订阅状态",
+      recoverySubscriptionDescription: "订阅状态异常，请前往订阅页检查并恢复。",
+      recoverySecurityTitle: "检查账户安全",
+      recoverySecurityDescription: "建议定期检查会话与账户信息，确保持续可用。",
+      recentActivityTitle: "最近活动",
+      recentActivityDescription: "按时间顺序回顾近期订阅、订单与会话变化。",
+      recentActivityEmpty: "暂无活动记录。",
+      recentSubscriptionTitle: "订阅已更新",
+      recentOrderTitle: "订单状态变更",
+      recentSessionTitle: "会话已建立",
+      recentSessionDescription: "你已登录并可继续管理账户。",
       profilePageTitle: "账户资料",
       profilePageDescription: "这里聚合你的基础身份信息和当前会话信息，适合作为个人中心主页的一部分。",
       subscriptionsPageTitle: "我的套餐",
@@ -552,8 +640,52 @@ const dictionaries: Record<Locale, HomeDictionary> = {
       navProfile: "Profile",
       navSubscriptions: "Subscriptions",
       navOrders: "Orders",
+      navUsage: "Usage & billing",
+      navSecurity: "Security & sessions",
       overviewTitle: "Account overview",
       overviewDescription: "Review your account status, active plan, and latest order in a cleaner dashboard flow instead of one overloaded page.",
+      cockpitTitle: "Today cockpit",
+      cockpitDescription: "Focus on current-cycle status, next actions, and recent activity so high-impact tasks are handled first.",
+      currentCycleTitle: "Current cycle status",
+      currentCycleDescription: "Live signals for subscription health, remaining quota, and latest order updates.",
+      nextActionsTitle: "Next actions",
+      nextActionsDescription: "Action recommendations are generated from your account status.",
+      nextActionsEmpty: "No pending actions right now.",
+      nextActionCta: "Handle now",
+      nextPriorityHigh: "High priority",
+      nextPriorityMedium: "Medium priority",
+      nextPriorityLow: "Low priority",
+      nextSubscribeTitle: "Start your first subscription",
+      nextSubscribeDescription: "There is no active plan yet. Choose one plan to unlock full usage.",
+      nextRenewTitle: "Renew your expiring plan",
+      nextRenewDescription: "Your current plan is close to expiration. Renew early to avoid interruption.",
+      nextOrderTitle: "Resolve pending order",
+      nextOrderDescription: "At least one order is not fully settled. Review payment status.",
+      nextUpgradeTitle: "Upgrade for more quota",
+      nextUpgradeDescription: "Remaining quota is low. Upgrade to keep your workflow stable.",
+      nextManageTitle: "Review plan and quota",
+      nextManageDescription: "Everything looks stable. Check details when needed.",
+      forecastTitle: "Quota forecast",
+      forecastDescription: "Estimate how many days your remaining quota can last based on current usage.",
+      forecastRiskLow: "Low risk",
+      forecastRiskMedium: "Medium risk",
+      forecastRiskHigh: "High risk",
+      forecastEmpty: "Not enough data to estimate quota exhaustion yet.",
+      recoveryTitle: "Recovery actions",
+      recoveryDescription: "Quickly recover from abnormal order, subscription, or session states.",
+      recoveryPaymentTitle: "Retry failed payment",
+      recoveryPaymentDescription: "A failed order was detected. Retry payment or switch payment method.",
+      recoverySubscriptionTitle: "Restore subscription status",
+      recoverySubscriptionDescription: "Your subscription state is abnormal. Open subscriptions and recover it.",
+      recoverySecurityTitle: "Review account security",
+      recoverySecurityDescription: "Review active sessions and profile settings to keep account healthy.",
+      recentActivityTitle: "Recent activity",
+      recentActivityDescription: "Track recent subscription, order, and session events in time order.",
+      recentActivityEmpty: "No recent activity yet.",
+      recentSubscriptionTitle: "Subscription updated",
+      recentOrderTitle: "Order status changed",
+      recentSessionTitle: "Session created",
+      recentSessionDescription: "You are signed in and ready to manage your account.",
       profilePageTitle: "Profile",
       profilePageDescription: "Your base identity details and current authenticated session live here.",
       subscriptionsPageTitle: "Subscriptions",

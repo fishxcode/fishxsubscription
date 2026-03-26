@@ -51,6 +51,27 @@ pnpm dev
 pnpm build
 ```
 
+## M1 重构进展（2026-03-26）
+
+- 首页：新增推荐器交互组件（预算维度）
+- 用户后台：新增“下一步建议 / 最近活动”驾驶舱模块
+- 管理后台：新增 `/[locale]/admin` 骨架，支持用户与订单列表/卡片切换
+- 测试：引入 Vitest 基础能力，并补充组件级测试
+
+### 本地验证
+
+```bash
+pnpm test
+pnpm lint
+pnpm dev
+```
+
+可手工检查路由：
+- `/{locale}`
+- `/{locale}/account`
+- `/{locale}/admin/users`
+- `/{locale}/admin/orders`
+
 ## 下一步建议
 
 - 接入认证

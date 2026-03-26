@@ -37,6 +37,8 @@ const config: Config = {
       },
       boxShadow: {
         glow: "0 0 0 1px rgba(245, 201, 104, 0.18), 0 18px 50px rgba(0, 0, 0, 0.35)",
+        console: "0 20px 55px rgba(0, 0, 0, 0.24)",
+        "console-sm": "0 10px 30px rgba(0, 0, 0, 0.16)",
       },
       fontFamily: {
         sans: ["ui-sans-serif", "system-ui", "sans-serif"],

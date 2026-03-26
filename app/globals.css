@@ -89,6 +89,36 @@
   }
 }
 
+@layer components {
+  .console-shell {
+    @apply grid min-h-[calc(100vh-9rem)] gap-4 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-6;
+  }
+
+  .console-sidebar {
+    @apply rounded-[1.75rem] border border-border/70 bg-card/70 p-3 backdrop-blur lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)] lg:overflow-y-auto;
+  }
+
+  .console-main {
+    @apply min-w-0 space-y-4;
+  }
+
+  .console-topbar {
+    @apply rounded-[1.5rem] border border-border/70 bg-background/70 px-4 py-3 shadow-console;
+  }
+
+  .console-content {
+    @apply min-w-0 space-y-4;
+  }
+
+  .console-card-density {
+    @apply rounded-[1.5rem] border-border/70 bg-card/80 px-4 py-5 shadow-console-sm;
+  }
+
+  .console-trend-badge {
+    @apply px-2.5 py-1 text-[11px] tracking-[0.08em];
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
