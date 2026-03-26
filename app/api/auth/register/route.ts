@@ -1,6 +1,6 @@
 import { createSession } from "@/lib/auth/session";
 import { createUser, findUserByEmail, hasExternalUserByEmail } from "@/lib/auth/users";
-import { badRequest } from "@/lib/auth/http";
+import { authErrorResponse, badRequest } from "@/lib/auth/http";
 import { isValidEmail, normalizeEmail } from "@/lib/auth/validation";
 import { type Locale } from "@/lib/i18n";
 import { NextResponse } from "next/server";
@@ -34,40 +34,42 @@ function registerMessage(locale: Locale, key: string) {
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as {
-    email?: string;
-    name?: string;
-    password?: string;
-    locale?: Locale;
-  };
-  const locale = body.locale === "en" ? "en" : "zh";
-
-  const email = normalizeEmail(body.email ?? "");
-  const name = body.name?.trim() ?? "";
-  const password = body.password?.trim() ?? "";
-
-  if (!name) {
-    return badRequest(registerMessage(locale, "nameRequired"));
-  }
-
-  if (!isValidEmail(email)) {
-    return badRequest(registerMessage(locale, "emailInvalid"));
-  }
-
-  if (password.length < 8) {
-    return badRequest(registerMessage(locale, "passwordShort"));
-  }
-
-  const [existingUser, existingExternalUser] = await Promise.all([
-    findUserByEmail(email),
-    hasExternalUserByEmail(email),
-  ]);
-
-  if (existingUser || existingExternalUser) {
-    return badRequest(registerMessage(locale, "emailExists"));
-  }
+  let locale: Locale = "zh";
 
   try {
+    const body = (await request.json()) as {
+      email?: string;
+      name?: string;
+      password?: string;
+      locale?: Locale;
+    };
+    locale = body.locale === "en" ? "en" : "zh";
+
+    const email = normalizeEmail(body.email ?? "");
+    const name = body.name?.trim() ?? "";
+    const password = body.password?.trim() ?? "";
+
+    if (!name) {
+      return badRequest(registerMessage(locale, "nameRequired"));
+    }
+
+    if (!isValidEmail(email)) {
+      return badRequest(registerMessage(locale, "emailInvalid"));
+    }
+
+    if (password.length < 8) {
+      return badRequest(registerMessage(locale, "passwordShort"));
+    }
+
+    const [existingUser, existingExternalUser] = await Promise.all([
+      findUserByEmail(email),
+      hasExternalUserByEmail(email),
+    ]);
+
+    if (existingUser || existingExternalUser) {
+      return badRequest(registerMessage(locale, "emailExists"));
+    }
+
     const user = await createUser({ email, name, password });
 
     await createSession({
@@ -86,6 +88,6 @@ export async function POST(request: Request) {
       return badRequest(registerMessage(locale, "emailExists"));
     }
 
-    return badRequest(registerMessage(locale, "registerFailed"));
+    return authErrorResponse(locale, "register", error);
   }
 }

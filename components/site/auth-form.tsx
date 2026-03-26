@@ -68,7 +68,8 @@ export function AuthForm({ locale, dictionary, initialMode }: AuthFormProps) {
         }),
       });
 
-      const payload = (await response.json()) as {
+      const rawPayload = (await response.text()) || "{}";
+      const payload = JSON.parse(rawPayload) as {
         ok: boolean;
         message?: string;
       };

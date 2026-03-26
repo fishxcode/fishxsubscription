@@ -1,6 +1,6 @@
 import { createSession } from "@/lib/auth/session";
 import { authenticateUser } from "@/lib/auth/users";
-import { badRequest, unauthorized } from "@/lib/auth/http";
+import { authErrorResponse, badRequest, unauthorized } from "@/lib/auth/http";
 import { parseLoginIdentifier } from "@/lib/auth/validation";
 import { type Locale } from "@/lib/i18n";
 import { NextResponse } from "next/server";
@@ -25,39 +25,45 @@ function loginMessage(locale: Locale, key: string) {
 }
 
 export async function POST(request: Request) {
-  const body = (await request.json()) as {
-    email?: string;
-    password?: string;
-    locale?: Locale;
-  };
-  const locale = body.locale === "en" ? "en" : "zh";
+  let locale: Locale = "zh";
 
-  const identifier = parseLoginIdentifier(body.email ?? "");
-  const password = body.password?.trim() ?? "";
+  try {
+    const body = (await request.json()) as {
+      email?: string;
+      password?: string;
+      locale?: Locale;
+    };
+    locale = body.locale === "en" ? "en" : "zh";
 
-  if (!identifier) {
-    return badRequest(loginMessage(locale, "identifierInvalid"));
+    const identifier = parseLoginIdentifier(body.email ?? "");
+    const password = body.password?.trim() ?? "";
+
+    if (!identifier) {
+      return badRequest(loginMessage(locale, "identifierInvalid"));
+    }
+
+    if (!password) {
+      return badRequest(loginMessage(locale, "passwordRequired"));
+    }
+
+    const user = await authenticateUser({ identifier, password });
+
+    if (!user) {
+      return unauthorized(loginMessage(locale, "invalidCredentials"));
+    }
+
+    await createSession({
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      createdAt: user.createdAt,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      user,
+    });
+  } catch (error) {
+    return authErrorResponse(locale, "login", error);
   }
-
-  if (!password) {
-    return badRequest(loginMessage(locale, "passwordRequired"));
-  }
-
-  const user = await authenticateUser({ identifier, password });
-
-  if (!user) {
-    return unauthorized(loginMessage(locale, "invalidCredentials"));
-  }
-
-  await createSession({
-    userId: user.id,
-    email: user.email,
-    name: user.name,
-    createdAt: user.createdAt,
-  });
-
-  return NextResponse.json({
-    ok: true,
-    user,
-  });
 }
